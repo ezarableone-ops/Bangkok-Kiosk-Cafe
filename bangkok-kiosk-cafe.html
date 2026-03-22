@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangkok Kiosk Cafe — Authentic Thai Street Food in Vietnam</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #E8651A;
+      --orange-light: #F28C38;
+      --green: #1A6B3C;
+      --green-dark: #0F4D2A;
+      --red: #C0392B;
+      --gold: #D4A017;
+      --gold-light: #F5D76E;
+      --cream: #FFF8F0;
+      --dark: #1A1A1A;
+      --gray: #555;
+      --gray-light: #999;
+      --white: #FFFFFF;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 32px rgba(0,0,0,0.14);
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== UTILITY ===== */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .text-center { text-align: center; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: box-shadow var(--transition);
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .nav-logo .logo-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .nav-logo .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gray);
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 0 80px;
+      position: relative;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    /* Wat Arun background image layer — 50% opacity */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      /* Sunset gradient fallback (matches Wat Arun golden tones) */
+      background: linear-gradient(
+        160deg,
+        #f9e4c8 0%,
+        #f5c07a 25%,
+        #e8a24e 50%,
+        #d4865a 75%,
+        #b8694a 100%
+      );
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      opacity: 0.50;
+      display: block;
+    }
+
+    /* Warm cream gradient overlay on top of the photo */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 248, 240, 0.25) 0%,
+        rgba(255, 248, 240, 0.05) 50%,
+        rgba(255, 248, 240, 0.45) 100%
+      );
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      right: -20%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(232, 101, 26, 0.04), transparent 70%);
+      border-radius: 50%;
+      z-index: 1;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(26, 107, 60, 0.03), transparent 70%);
+      border-radius: 50%;
+      z-index: 1;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 101, 26, 0.3); }
+      50% { box-shadow: 0 0 0 12px rgba(232, 101, 26, 0); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--dark);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      text-shadow: 0 1px 6px rgba(255,248,240,0.7);
+      font-weight: 500;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white;
+      box-shadow: 0 4px 15px rgba(232, 101, 26, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(232, 101, 26, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--dark);
+      border: 2px solid rgba(0,0,0,0.12);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat .number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    .hero-stat .label {
+      font-size: 0.8rem;
+      color: #1A56DB;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ===== MENU SECTION ===== */
+    .menu {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .menu-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .menu-card-img {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+      background: linear-gradient(135deg, #f5f0eb, #ebe3d9);
+    }
+
+    .menu-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .menu-card-img img {
+      transform: scale(1.05);
+    }
+
+    .menu-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--green);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    .menu-card-body {
+      padding: 1.5rem;
+    }
+
+    .menu-card-body h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .menu-card-body .thai-name {
+      font-size: 0.8rem;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .menu-card-body p {
+      font-size: 0.92rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .menu-card-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 1rem;
+    }
+
+    .menu-card-options span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--green-dark);
+      background: rgba(26, 107, 60, 0.08);
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===== LOCATIONS / COMING SOON ===== */
+    .locations {
+      padding: 100px 0;
+      background:
+        radial-gradient(ellipse at 30% 0%, rgba(232, 101, 26, 0.04) 0%, transparent 50%),
+        var(--cream);
+    }
+
+    .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .location-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+      border: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .location-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+    }
+
+    .location-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .location-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(232, 101, 26, 0.1), rgba(212, 160, 23, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .location-card h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .location-card .status {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(212, 160, 23, 0.1);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .location-card p {
+      font-size: 0.95rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      max-width: 580px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .newsletter h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .newsletter p {
+      font-size: 0.95rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: 50px;
+      outline: none;
+      background: var(--white);
+      transition: border-color var(--transition);
+      font-family: inherit;
+    }
+
+    .newsletter-form input[type="email"]:focus {
+      border-color: var(--orange);
+    }
+
+    .newsletter-form button {
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .newsletter-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232, 101, 26, 0.35);
+    }
+
+    .form-message {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .form-message.show {
+      opacity: 1;
+    }
+
+    .form-message.success {
+      color: var(--green);
+    }
+
+    .form-message.error {
+      color: var(--red);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.7);
+      padding: 60px 0 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand .nav-logo {
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      max-width: 320px;
+    }
+
+    .footer h4 {
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--orange);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .footer-socials a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+
+    .footer-socials a:hover {
+      background: var(--orange);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .footer-bottom a {
+      color: var(--orange);
+    }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 999;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    .mobile-menu.open {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.85rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      transition: color var(--transition);
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--orange);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .hero-stat .number {
+        font-size: 1.4rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .locations-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-form button {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== LANGUAGE TOGGLE ===== */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 3px;
+      margin-left: 0.5rem;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      color: var(--gray);
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(232,101,26,0.35);
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: var(--orange);
+    }
+
+    @media (max-width: 768px) {
+      .lang-toggle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">
+          <img src="images/logo.jpg" alt="Bangkok Kiosk Cafe Logo">
+        </div>
+        Bangkok Kiosk Cafe
+      </a>
+      <ul class="nav-links">
+        <li><a href="#menu" data-en="Menu" data-vi="Thực Đơn">Menu</a></li>
+        <li><a href="#locations" data-en="Locations" data-vi="Địa Điểm">Locations</a></li>
+        <li><a href="#contact" data-en="Contact" data-vi="Liên Hệ">Contact</a></li>
+      </ul>
+      <div class="lang-toggle" id="langToggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="vi">VI</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#menu" onclick="closeMobile()" data-en="Menu" data-vi="Thực Đơn">Menu</a>
+    <a href="#locations" onclick="closeMobile()" data-en="Locations" data-vi="Địa Điểm">Locations</a>
+    <a href="#contact" onclick="closeMobile()" data-en="Contact" data-vi="Liên Hệ">Contact</a>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <!-- Wat Arun background at 50% opacity -->
+    <div class="hero-bg">
+      <img src="images/wat-arun.jpg" alt="Wat Arun Bangkok at sunset">
+    </div>
+    <div class="container hero-content">
+      <div class="hero-badge" data-en="&#x1F4CD; Coming 2028" data-vi="&#x1F4CD; Sắp Khai Trương 2028">&#x1F4CD; Coming 2028</div>
+      <h1>
+        <span data-en="Bangkok's Boldest" data-vi="Ẩm Thực Đường Phố">Bangkok's Boldest</span><br>
+        <span class="highlight" data-en="Street Food" data-vi="Bangkok">Street Food</span><br>
+        <span data-en="Lands in Vietnam" data-vi="Đến Việt Nam">Lands in Vietnam</span>
+      </h1>
+      <p data-en="From sizzling woks to your hands — we're bringing the authentic flavours of Thailand's legendary street kitchens to the heart of Hanoi and Da Nang." data-vi="Từ những chiếc chảo bốc khói đến tay bạn — chúng tôi mang hương vị đích thực của những con phố huyền thoại Bangkok đến trái tim của Hà Nội và Đà Nẵng.">
+        From sizzling woks to your hands — we're bringing the authentic flavours
+        of Thailand's legendary street kitchens to the heart of Hanoi and Da Nang.
+      </p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-primary" data-en="View Menu &#x2192;" data-vi="Xem Thực Đơn &#x2192;">View Menu &#x2192;</a>
+        <a href="#locations" class="btn btn-outline" data-en="Our Locations" data-vi="Địa Điểm Của Chúng Tôi">Our Locations</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">6</div>
+          <div class="label" data-en="Signature Dishes" data-vi="Món Đặc Trưng">Signature Dishes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">2</div>
+          <div class="label" data-en="Cities" data-vi="Thành Phố">Cities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">2028</div>
+          <div class="label" data-en="Grand Opening" data-vi="Khai Trương">Grand Opening</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MENU ========== -->
+  <section class="menu" id="menu">
+    <div class="container">
+      <div class="text-center fade-up">
+        <span class="section-label" data-en="Our Menu" data-vi="Thực Đơn Của Chúng Tôi">Our Menu</span>
+        <h2 class="section-title" data-en="Street Flavours, Perfected" data-vi="Hương Vị Đường Phố, Hoàn Hảo">Street Flavours, Perfected</h2>
+        <p class="section-subtitle" data-en="Every dish is cooked to order, just like the legendary pushcarts of Bangkok's Yaowarat Road." data-vi="Mỗi món ăn được chế biến theo yêu cầu, như những xe đẩy huyền thoại trên phố Yaowarat của Bangkok.">
+          Every dish is cooked to order, just like the legendary pushcarts of Bangkok's Yaowarat Road.
+        </p>
+      </div>
+
+      <div class="menu-grid">
+
+        <!-- Pad Thai -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/pad-thai.jpg" alt="Pad Thai">
+            <span class="menu-card-badge" data-en="Classic" data-vi="Cổ Điển">Classic</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Pad Thai</h3>
+            <div class="thai-name">&#x0E1C;&#x0E31;&#x0E14;&#x0E44;&#x0E17;&#x0E22;</div>
+            <p data-en="Silky rice noodles tossed in a tangy-sweet tamarind sauce with crunchy bean sprouts, crushed peanuts, and a squeeze of fresh lime. Thailand's most iconic street dish — done right." data-vi="Bún gạo mềm mịn xào với sốt me chua ngọt, giá đỗ giòn, đậu phộng giã và vắt chanh tươi. Món ăn đường phố biểu tượng nhất Thái Lan — làm đúng chuẩn.">
+              Silky rice noodles tossed in a tangy-sweet tamarind sauce with
+              crunchy bean sprouts, crushed peanuts, and a squeeze of fresh lime.
+              Thailand's most iconic street dish — done right.
+            </p>
+            <div class="menu-card-options">
+              <span data-en="Pork" data-vi="Thịt Heo">Pork</span>
+              <span data-en="Chicken" data-vi="Gà">Chicken</span>
+              <span data-en="Shrimp" data-vi="Tôm">Shrimp</span>
+              <span data-en="Squid" data-vi="Mực">Squid</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kao Kook Kapi -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/kao-kook-kapi.jpg" alt="Kao Kook Kapi">
+            <span class="menu-card-badge" data-en="Authentic" data-vi="Truyền Thống">Authentic</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Kao Kook Kapi</h3>
+            <div class="thai-name">&#x0E02;&#x0E49;&#x0E32;&#x0E27;&#x0E04;&#x0E25;&#x0E38;&#x0E01;&#x0E01;&#x0E30;&#x0E1B;&#x0E34;</div>
+            <p data-en="Fragrant rice stir-fried with aromatic shrimp paste, served with caramelised sweet pork, crispy dried shrimp, a jammy omelette, and a rainbow of fresh condiments. Deep, bold, and unforgettable." data-vi="Cơm chiên thơm với mắm ruốc, ăn kèm thịt heo caramel, tôm khô giòn, trứng chiên mềm và các loại gia vị tươi đa sắc. Đậm đà, mạnh mẽ và khó quên.">
+              Fragrant rice stir-fried with aromatic shrimp paste, served with
+              caramelised sweet pork, crispy dried shrimp, a jammy omelette, and a
+              rainbow of fresh condiments. Deep, bold, and unforgettable.
+            </p>
+          </div>
+        </div>
+
+        <!-- Kao Mun Kai -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/kao-mun-kai.jpg" alt="Kao Mun Kai">
+            <span class="menu-card-badge" data-en="Comfort" data-vi="Bình Dân">Comfort</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Kao Mun Kai</h3>
+            <div class="thai-name">&#x0E02;&#x0E49;&#x0E32;&#x0E27;&#x0E21;&#x0E31;&#x0E19;&#x0E44;&#x0E01;&#x0E48;</div>
+            <p data-en="Silky poached chicken resting on ginger-infused jasmine rice, drizzled with a garlicky soybean sauce and served with a fiery chilli-ginger dip. Bangkok's favourite comfort food." data-vi="Gà luộc mềm mịn trên nền cơm lài thấm gừng, chan nước sốt đậu nành tỏi và ăn kèm tương ớt gừng cay nồng. Món ăn bình dân yêu thích của Bangkok.">
+              Silky poached chicken resting on ginger-infused jasmine rice,
+              drizzled with a garlicky soybean sauce and served with a fiery
+              chilli-ginger dip. Bangkok's favourite comfort food.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pad Si Ew -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/pad-si-ew.jpg" alt="Pad Si Ew">
+            <span class="menu-card-badge" data-en="Wok-Fired" data-vi="Xào Lửa Lớn">Wok-Fired</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Pad Si Ew</h3>
+            <div class="thai-name">&#x0E1C;&#x0E31;&#x0E14;&#x0E0B;&#x0E35;&#x0E2D;&#x0E34;&#x0E4A;&#x0E27;</div>
+            <p data-en="Wide flat noodles kissed by a scorching-hot wok, glazed in dark sweet soy, tossed with tender Chinese broccoli and egg. Smoky, savoury, and wildly addictive." data-vi="Bánh phở bản rộng áp chảo nóng rực, tráng nước tương đen ngọt, xào với cải xanh Trung Hoa và trứng. Khói thơm, đậm vị và cực kỳ nghiện.">
+              Wide flat noodles kissed by a scorching-hot wok, glazed in dark
+              sweet soy, tossed with tender Chinese broccoli and egg. Smoky,
+              savoury, and wildly addictive.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tofu Spicy -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/tofu-spicy.jpg" alt="Tofu Spicy">
+            <span class="menu-card-badge" data-en="Vegetarian" data-vi="Chay">Vegetarian</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Tofu Spicy</h3>
+            <div class="thai-name">&#x0E40;&#x0E15;&#x0E49;&#x0E32;&#x0E2B;&#x0E39;&#x0E49;&#x0E1C;&#x0E31;&#x0E14;&#x0E1E;&#x0E23;&#x0E34;&#x0E01;</div>
+            <p data-en="Crispy golden tofu bathed in a fiery chilli-basil sauce with fresh vegetables and aromatic herbs. Packed with heat and flavour — proof that plant-based can punch hard." data-vi="Đậu hũ chiên giòn vàng ươm chan sốt ớt húng quế cay nồng cùng rau tươi và thảo mộc thơm. Cay đậm, đầy hương vị — minh chứng rằng món chay cũng cực kỳ mạnh mẽ.">
+              Crispy golden tofu bathed in a fiery chilli-basil sauce with
+              fresh vegetables and aromatic herbs. Packed with heat and flavour
+              — proof that plant-based can punch hard.
+            </p>
+          </div>
+        </div>
+
+        <!-- Kao Pad Kaprao -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <img src="images/kao-pad-kaprao.jpg" alt="Kao Pad Kaprao">
+            <span class="menu-card-badge" data-en="&#x2605; Popular" data-vi="&#x2605; Phổ Biến">&#x2605; Popular</span>
+          </div>
+          <div class="menu-card-body">
+            <h3>Kao Pad Kaprao</h3>
+            <div class="thai-name">&#x0E02;&#x0E49;&#x0E32;&#x0E27;&#x0E1C;&#x0E31;&#x0E14;&#x0E01;&#x0E23;&#x0E30;&#x0E40;&#x0E1E;&#x0E23;&#x0E32;</div>
+            <p data-en="Thailand's undisputed #1 street meal. Minced pork stir-fried with fiery bird's-eye chillies and holy basil, crowned with a crispy fried egg over steaming jasmine rice. Simple. Perfect. Legendary." data-vi="Món ăn đường phố số 1 không tranh cãi của Thái Lan. Thịt heo băm xào ớt chỉ thiên cay và húng quế thánh, phủ trứng chiên giòn trên cơm lài nóng hổi. Đơn giản. Hoàn hảo. Huyền thoại.">
+              Thailand's undisputed #1 street meal. Minced pork stir-fried with
+              fiery bird's-eye chillies and holy basil, crowned with a crispy
+              fried egg over steaming jasmine rice. Simple. Perfect. Legendary.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOCATIONS ========== -->
+  <section class="locations" id="locations">
+    <div class="container">
+      <div class="text-center fade-up">
+        <span class="section-label" data-en="Locations" data-vi="Địa Điểm">Locations</span>
+        <h2 class="section-title" data-en="Coming to a Street Near You" data-vi="Sắp Có Mặt Tại Đường Phố Của Bạn">Coming to a Street Near You</h2>
+        <p class="section-subtitle" data-en="Our first two kiosks are opening in Vietnam's most vibrant cities. Stay tuned for 2028." data-vi="Hai ki-ốt đầu tiên của chúng tôi sẽ khai trương tại những thành phố sôi động nhất Việt Nam. Hãy đón chờ năm 2028.">
+          Our first two kiosks are opening in Vietnam's most vibrant cities. Stay tuned for 2028.
+        </p>
+      </div>
+
+      <div class="locations-grid">
+        <!-- Hanoi -->
+        <div class="location-card fade-up">
+          <div class="location-icon">&#x1F3EF;</div>
+          <h3>Hanoi</h3>
+          <div class="status" data-en="&#x23F3; Coming 2028" data-vi="&#x23F3; Sắp Khai Trương 2028">&#x23F3; Coming 2028</div>
+          <p data-en="In the heart of Vietnam's capital — where the energy of the Old Quarter meets the sizzle of Bangkok street woks. Our first flagship kiosk." data-vi="Ngay trung tâm thủ đô Việt Nam — nơi năng lượng của Phố Cổ gặp gỡ tiếng xèo của những chiếc chảo Bangkok. Ki-ốt đầu tiên của chúng tôi.">
+            In the heart of Vietnam's capital — where the energy of the Old Quarter
+            meets the sizzle of Bangkok street woks. Our first flagship kiosk.
+          </p>
+        </div>
+
+        <!-- Da Nang -->
+        <div class="location-card fade-up">
+          <div class="location-icon">&#x1F3D6;</div>
+          <h3>Da Nang</h3>
+          <div class="status" data-en="&#x23F3; Coming 2028" data-vi="&#x23F3; Sắp Khai Trương 2028">&#x23F3; Coming 2028</div>
+          <p data-en="Coastal vibes, bold flavours. Bringing Bangkok's best to Da Nang's booming food scene — steps from the beach and the Dragon Bridge." data-vi="Không khí biển cả, hương vị đậm đà. Mang tinh hoa Bangkok đến với cảnh ăn uống sôi nổi của Đà Nẵng — ngay gần bãi biển và Cầu Rồng.">
+            Coastal vibes, bold flavours. Bringing Bangkok's best to Da Nang's
+            booming food scene — steps from the beach and the Dragon Bridge.
+          </p>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="newsletter fade-up" id="contact">
+        <h3 data-en="Be the First to Know" data-vi="Hãy Là Người Đầu Tiên Biết">Be the First to Know</h3>
+        <p data-en="Sign up for launch updates, secret menu previews, and exclusive opening-day deals. No spam — just delicious news." data-vi="Đăng ký để nhận thông tin khai trương, xem trước thực đơn bí mật và ưu đãi đặc biệt ngày khai trương. Không spam — chỉ có tin tức ngon lành.">
+          Sign up for launch updates, secret menu previews, and exclusive
+          opening-day deals. No spam — just delicious news.
+        </p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" id="emailInput" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" data-en="Notify Me" data-vi="Thông Báo Cho Tôi">Notify Me</button>
+        </form>
+        <div class="form-message" id="formMessage"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <div class="logo-icon">
+              <img src="images/logo.jpg" alt="Bangkok Kiosk Cafe Logo">
+            </div>
+            Bangkok Kiosk Cafe
+          </div>
+          <p data-en="Authentic Thai street food, crafted with passion and served with a smile. From Bangkok's legendary sois to the streets of Vietnam." data-vi="Ẩm thực đường phố Thái Lan chính hiệu, được chế biến với đam mê và phục vụ với nụ cười. Từ những con hẻm huyền thoại Bangkok đến đường phố Việt Nam.">
+            Authentic Thai street food, crafted with passion and served with
+            a smile. From Bangkok's legendary sois to the streets of Vietnam.
+          </p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Facebook" title="Facebook">f</a>
+            <a href="#" aria-label="Instagram" title="Instagram">&#x1F4F7;</a>
+            <a href="#" aria-label="TikTok" title="TikTok">&#x266A;</a>
+            <a href="#" aria-label="Line" title="Line">L</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 data-en="Explore" data-vi="Khám Phá">Explore</h4>
+          <ul class="footer-links">
+            <li><a href="#menu" data-en="Menu" data-vi="Thực Đơn">Menu</a></li>
+            <li><a href="#locations" data-en="Locations" data-vi="Địa Điểm">Locations</a></li>
+            <li><a href="#contact" data-en="Newsletter" data-vi="Bản Tin">Newsletter</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 data-en="Get in Touch" data-vi="Liên Hệ Với Chúng Tôi">Get in Touch</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:hello@bangkokkioskcafe.com">hello@bangkokkioskcafe.com</a></li>
+            <li>Hanoi, Vietnam</li>
+            <li>Da Nang, Vietnam</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span data-en="&copy; 2026 Bangkok Kiosk Cafe. All rights reserved." data-vi="&copy; 2026 Bangkok Kiosk Cafe. Bảo lưu mọi quyền.">&copy; 2026 Bangkok Kiosk Cafe. All rights reserved.</span>
+        <span data-en="Designed with &#x2764;&#xFE0F; and a lot of chilli." data-vi="Thiết kế với &#x2764;&#xFE0F; và thật nhiều ớt.">Designed with &#x2764;&#xFE0F; and a lot of chilli.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ---- Hero bg image graceful fallback ----
+    const heroBgImg = document.querySelector('.hero-bg img');
+    if (heroBgImg) {
+      heroBgImg.onerror = function() {
+        this.style.display = 'none'; // hide broken image, gradient shows instead
+      };
+    }
+
+    // ---- Navbar scroll effect ----
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ---- Hamburger toggle ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobile() {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+    }
+
+    // ---- Scroll-based fade-in animations ----
+    const fadeEls = document.querySelectorAll('.fade-up');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger the animation slightly per element
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ---- Newsletter form handling ----
+    const form = document.getElementById('newsletterForm');
+    const msg = document.getElementById('formMessage');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = form.querySelector('input[type="email"]').value;
+
+      // Simulate success (replace with actual API call)
+      msg.textContent = 'You\'re on the list! We\'ll notify you before we open.';
+      msg.className = 'form-message show success';
+      form.reset();
+
+      setTimeout(() => {
+        msg.classList.remove('show');
+      }, 5000);
+    });
+
+    // ---- Language Toggle ----
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+
+      // Update all elements with data-en / data-vi
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (text !== null) el.innerHTML = text;
+      });
+
+      // Update email placeholder
+      const emailInput = document.getElementById('emailInput');
+      if (emailInput) {
+        emailInput.placeholder = lang === 'vi' ? 'email@cuaban.com' : 'your@email.com';
+      }
+
+      // Update active button state
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      // Update html lang attribute
+      document.documentElement.lang = lang === 'vi' ? 'vi' : 'en';
+    }
+
+    document.getElementById('langToggle').addEventListener('click', (e) => {
+      const btn = e.target.closest('.lang-btn');
+      if (btn) setLanguage(btn.getAttribute('data-lang'));
+    });
+
+    // ---- Smooth scroll for anchor links ----
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = navbar.offsetHeight + 10;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
